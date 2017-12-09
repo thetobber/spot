@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Spot.Models.Post>
+
+
+@foreach (var post in Model)
+{
+    <article>
+        <h4>@post.Title</h4>
+        <section>@post.Excerpt</section>
+        <footer>@post.Published</footer>
+    </article>
+}
