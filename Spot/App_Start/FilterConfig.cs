@@ -6,7 +6,9 @@ namespace Spot
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new RequireHttpsAttribute());
             filters.Add(new HandleErrorAttribute());
+            //filters.Add(new ValidateAntiForgeryTokenAttribute());
             filters.Add(new AuthorizeAttribute());
         }
     }

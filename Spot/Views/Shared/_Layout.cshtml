@@ -35,16 +35,22 @@
                     <rect rx="2" height="3" width="28" y="26" x="8" stroke-width="0" stroke="none" fill="#343a40" />
                 </svg>
             </button>
+
             <ul id="navlinks" class="list-unstyled d-flex">
-                <li>
-                    <a class="active px-2" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li>
-                    <a class="px-2" href="@Url.Action("About", "Home")">About</a>
-                </li>
-                <li>
-                    <a class="px-2" href="@Url.Action("Contact", "Home")">Contact</a>
-                </li>
+                <li><a class="active px-2" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a></li>
+                <li><a class="px-2" href="@Url.Action("About", "Home")">About</a></li>
+                <li><a class="px-2" href="@Url.Action("Contact", "Home")">Contact</a></li>
+            </ul>
+
+            <ul class="list-unstyled d-flex ml-auto">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li><a class="px-2" href="@Url.Action("SignIn", "Auth")">Sign in</a></li>
+                }
+                else
+                {
+                    <li><a class="px-2" href="@Url.Action("SignOut", "Auth")">Sign out</a></li>
+                }
             </ul>
         </div>
     </nav>

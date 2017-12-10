@@ -1,3 +1,24 @@
 ﻿@model Spot.Models.SignInViewModel
 
+@{
+    ViewBag.Title = "Sign in";
+}
 
+<form action="@Url.Action("SignIn", "Auth")" method="post" autocomplete="off">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ReturnUrl)
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Email, new { @class = "d-block" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "d-block" })
+    </div>
+    
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Password, new { @class = "d-block" })
+        @Html.PasswordFor(m => m.Password, new { @class = "d-block" })
+    </div>
+    
+    @Html.ValidationMessage("SignInViewModel", new { @class = "d-block text-danger mb-3" })
+
+    <button type="submit">Sign in</button>
+</form>

@@ -11,10 +11,10 @@ namespace Spot
         public void Configuration(IAppBuilder app)
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                AuthenticationType = "ApplicationCookie",
                 CookieHttpOnly = true,
                 CookieSecure = CookieSecureOption.SameAsRequest,
-                LoginPath = new PathString("/"),
+                LoginPath = new PathString("/Auth/SignIn"),
                 LogoutPath = new PathString("/")
             });
         }

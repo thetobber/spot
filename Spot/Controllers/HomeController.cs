@@ -5,7 +5,6 @@ using Spot.Repositories;
 
 namespace Spot.Controllers
 {
-    [Route("{action=Index}")]
     public class HomeController : Controller
     {
         private readonly PostRepository PostRepository;
@@ -24,7 +23,6 @@ namespace Spot.Controllers
             return View(model);
         }
 
-        [Route("About")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -32,7 +30,6 @@ namespace Spot.Controllers
             return View();
         }
 
-        [Route("Contact")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
