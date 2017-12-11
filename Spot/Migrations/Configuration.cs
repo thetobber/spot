@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Spot.Data;
 using System.Data.Entity.Migrations;
 using Spot.Models;
 
 namespace Spot.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<SpotContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(SpotContext context)
+        protected override void Seed(AppDbContext context)
         {
             // Update-Database -Verbose -StartUpProjectName Spot.Data
 

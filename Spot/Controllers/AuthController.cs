@@ -1,58 +1,81 @@
-﻿using System.Security.Claims;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Spot.Models;
+using Spot.Models.Auth.ViewModels;
 
 namespace Spot.Controllers
 {
     [AllowAnonymous]
     public class AuthController : Controller
     {
-        [HttpGet]
-        public ActionResult SignIn(string returnUrl)
-        {
-            var model = new SignInViewModel {
-                Email = "test@localhost.dev",
-                Password = "123",
-                ReturnUrl = returnUrl
-            };
+        private readonly AppUserManager UserManager;
+        private readonly AppSignInManager SignInManager;
+        private readonly IAuthenticationManager AuthManager;
 
-            return View(model);
+        public AuthController(AppUserManager userManager, AppSignInManager signInManager, IAuthenticationManager authManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+            AuthManager = authManager;
         }
+
+        [HttpGet]
+        public ActionResult SignIn(string returnUrl) => View(new SignInViewModel { ReturnUrl = returnUrl });
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignIn(SignInViewModel model)
+        public async Task<ActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid)
                 return View();
-            
-            if (model.Email == "test@localhost.dev" && model.Password == "123") {
-                var claims = new Claim[] {
-                    new Claim(ClaimTypes.Name, "Tobias"),
-                    new Claim(ClaimTypes.Email, "test@localhost.dev"),
-                    new Claim(ClaimTypes.Country, "Denmark")
-                };
 
-                var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
-                Request.GetOwinContext().Authentication.SignIn(identity);
-
-                if (string.IsNullOrEmpty(model.ReturnUrl) || !Url.IsLocalUrl(model.ReturnUrl)) {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                return Redirect(model.ReturnUrl);
-            }
+            if (result == SignInStatus.Success)
+                return RedirectToLocal(model.ReturnUrl);
 
             ModelState.AddModelError("SignInViewModel", "Incorrect e-mail or password.");
             return View();
         }
 
+        [HttpGet]
         public RedirectToRouteResult SignOut()
         {
-            Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");
+            AuthManager.SignOut("ApplicationCookie");
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Register() => View();
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid) {
+                var user = new AppUser {
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                    return RedirectToAction("SignIn");
+            }
+
+            return View(model);
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl)) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return Redirect(returnUrl);
         }
     }
 }

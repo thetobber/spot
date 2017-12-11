@@ -27,68 +27,7 @@ img {
     max-width: 100%;
 }
 
-/*body {
-    background-color: #343a40;
-    color: #b3b3b3;
-    height: 100%;
+label,
+input {
+    display: block;
 }
-
-.navbar {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-}
-
-.navbar > button {
-    margin-left: auto;
-    padding: 0;
-    background-color: transparent;
-    border: 0;
-}
-
-.navbar > button:focus {
-    outline: 0 none;
-}
-
-.navbar > ul {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    margin: 0;
-    padding: 0 1rem;
-    list-style: none;
-}
-
-@media (min-width: 576px) {
-    .navbar > button {
-        display: none;
-    }
-
-    .navbar > a {
-        margin-right: 0.5rem;
-    }
-
-    .navbar > ul {
-        display: flex;
-        position: static;
-        top: auto;
-        right: auto;
-        left: auto;
-        padding: 0;
-    }
-
-    .navbar > ul > li {
-        padding: 0 0.5rem;
-    }
-}
-
-@media (min-width: 768px) {
-}
-
-@media (min-width: 992px) {
-}
-
-.bg-primary {
-    background-color: #22262a !important;
-}*/

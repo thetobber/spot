@@ -43,12 +43,11 @@
             </ul>
 
             <ul class="list-unstyled d-flex ml-auto">
-                @if (!User.Identity.IsAuthenticated)
-                {
+                @if (!User.Identity.IsAuthenticated) {
+                    <li><a class="px-2" href="@Url.Action("Register", "Auth")">Register</a></li>
                     <li><a class="px-2" href="@Url.Action("SignIn", "Auth")">Sign in</a></li>
                 }
-                else
-                {
+                else {
                     <li><a class="px-2" href="@Url.Action("SignOut", "Auth")">Sign out</a></li>
                 }
             </ul>

@@ -1,17 +1,16 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Spot.Data;
 using Spot.Repositories;
 
 namespace Spot.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PostRepository PostRepository;
+        private readonly IPostRepository PostRepository;
 
-        public HomeController()
+        public HomeController(IPostRepository postRepository)
         {
-            PostRepository = new PostRepository(new SpotContext());
+            PostRepository = postRepository;
         }
 
         [AllowAnonymous]
@@ -35,12 +34,6 @@ namespace Spot.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            PostRepository.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

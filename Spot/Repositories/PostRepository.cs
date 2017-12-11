@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Spot.Data;
+using Spot;
 using Spot.Models;
 using Spot.Repositories.Generic;
 
@@ -12,9 +12,9 @@ namespace Spot.Repositories
 {
     public class PostRepository : Repository<int, Post>, IPostRepository
     {
-        public SpotContext Spot => Context as SpotContext;
+        public AppDbContext Spot => Context as AppDbContext;
 
-        public PostRepository(SpotContext context) : base(context)
+        public PostRepository(AppDbContext context) : base(context)
         {
         }
 

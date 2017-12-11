@@ -9,8 +9,8 @@ namespace Spot
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            FilterRegistration.Register(GlobalFilters.Filters);
+            RouteRegistration.Register(RouteTable.Routes);
         }
     }
 }
