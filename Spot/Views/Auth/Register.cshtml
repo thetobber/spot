@@ -4,25 +4,26 @@
     ViewBag.Title = "Register";
 }
 
-<form action="@Url.Action("Register", "Auth")" method="post" autocomplete="off">
-    @Html.AntiForgeryToken()
+<div class="container my-4">
+    <form action="@Url.Action("Register", "Auth")" method="post" autocomplete="off">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "mb-3 text-danger" })
 
-    @Html.ValidationSummary("", new { @class = "mb-3 text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email)
+        </div>
 
-    <div class="mb-3">
-        @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email)
-    </div>
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+        </div>
 
-    <div class="mb-3">
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password)
-    </div>
+        <div class="mb-3">
+            @Html.LabelFor(m => m.ConfirmPassword)
+            @Html.PasswordFor(m => m.ConfirmPassword)
+        </div>
 
-    <div class="mb-3">
-        @Html.LabelFor(m => m.ConfirmPassword)
-        @Html.PasswordFor(m => m.ConfirmPassword)
-    </div>
-
-    <button type="submit">Sign in</button>
-</form>
+        <button type="submit">Sign in</button>
+    </form>
+</div>

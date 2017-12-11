@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Spot.Repositories.Generic
 {
-    public interface IRepository<TKey, TEntity> : IDisposable where TEntity : class
+    public interface IRepository<TKey, TEntity> where TEntity : class
     {
         void Add(TEntity entity);
 

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Spot.Models.Post;
 
-namespace Spot.Models
+namespace Spot.Models.Comment
 {
-    public class Comment
+    public class CommentModel
     {
         public int Id { get; set; }
         
-        public Post PostId { get; set; }
+        public PostModel PostId { get; set; }
 
         [DataType(DataType.Html)]
         public string Content { get; set; }

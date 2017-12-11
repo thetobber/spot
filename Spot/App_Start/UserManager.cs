@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.DataProtection;
-using Spot.Models;
+using Spot.Models.User;
 
 namespace Spot
 {
-    public class AppUserManager : UserManager<AppUser>
+    public class UserManager : UserManager<UserModel>
     {
-        public AppUserManager(IUserStore<AppUser> store, IDataProtectionProvider dataProtectionProvider) : base(store)
+        public UserManager(IUserStore<UserModel> store, IDataProtectionProvider dataProtectionProvider) : base(store)
         {
-            UserValidator = new UserValidator<AppUser>(this) {
+            UserValidator = new UserValidator<UserModel>(this) {
                 RequireUniqueEmail = true,
                 AllowOnlyAlphanumericUserNames = false
             };
@@ -24,7 +24,7 @@ namespace Spot
             
             UserLockoutEnabledByDefault = false;
 
-            UserTokenProvider = new DataProtectorTokenProvider<AppUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+            UserTokenProvider = new DataProtectorTokenProvider<UserModel>(dataProtectionProvider.Create("ASP.NET Identity"));
         }
     }
 }

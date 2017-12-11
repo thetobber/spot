@@ -4,35 +4,33 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Spot;
 using Spot.Models;
+using Spot.Models.Post;
 using Spot.Repositories.Generic;
 
 namespace Spot.Repositories
 {
-    public class PostRepository : Repository<int, Post>, IPostRepository
+    public class PostRepository : Repository<int, PostModel>, IPostRepository
     {
-        public AppDbContext Spot => Context as AppDbContext;
+        public DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public PostRepository(AppDbContext context) : base(context)
-        {
-        }
+        public PostRepository(DatabaseContext context) : base(context) { }
 
         internal static PostRepository Create()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Post> GetWithCommentsAsync(int id)
+        public async Task<PostModel> GetWithCommentsAsync(int id)
         {
-            return await Spot.Posts
+            return await DatabaseContext.Posts
                 .Include(p => p.Comments)
                 .SingleAsync(p => p.Id == id && p.Status == PostStatus.Public);
         }
 
-        public async Task<IEnumerable<Post>> GetPagedAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<PostModel>> GetPagedAsync(int pageIndex, int pageSize)
         {
-            return await Spot.Posts
+            return await DatabaseContext.Posts
                 .Where(p => p.Status == PostStatus.Public)
                 .OrderByDescending(p => p.Published)
                 .Skip((pageIndex - 1) * pageSize)
@@ -40,9 +38,9 @@ namespace Spot.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetPagedByTagAsync(int pageIndex, int pageSize, int tagId)
+        public async Task<IEnumerable<PostModel>> GetPagedByTagAsync(int pageIndex, int pageSize, int tagId)
         {
-            return await Spot.Posts
+            return await DatabaseContext.Posts
                 .Where(p => p.Status == PostStatus.Public)
                 .Where(p => p.Tags.Any(t => t.Id == tagId))
                 .OrderByDescending(p => p.Published)
@@ -51,7 +49,7 @@ namespace Spot.Repositories
                 .ToListAsync();
         }
 
-        public Task<IEnumerable<Post>> GetPagedByAuthorAsync(int pageIndex, int pageSize, string author)
+        public Task<IEnumerable<PostModel>> GetPagedByAuthorAsync(int pageIndex, int pageSize, string author)
         {
             throw new NotImplementedException();
         }

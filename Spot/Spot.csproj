@@ -155,12 +155,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AppSignInManager.cs" />
-    <Compile Include="App_Start\AppDbContext.cs" />
-    <Compile Include="App_Start\AppUserStore.cs" />
-    <Compile Include="App_Start\FilterRegistration.cs" />
-    <Compile Include="App_Start\RouteRegistration.cs" />
-    <Compile Include="App_Start\AppUserManager.cs" />
+    <Compile Include="App_Start\RoleManager.cs" />
+    <Compile Include="App_Start\RoleStore.cs" />
+    <Compile Include="App_Start\SignInManager.cs" />
+    <Compile Include="App_Start\DatabaseContext.cs" />
+    <Compile Include="App_Start\UserStore.cs" />
+    <Compile Include="App_Start\UserManager.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -169,19 +169,21 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth.ViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\Auth.ViewModels\SignInViewModel.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\PostStatus.cs" />
-    <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\Comment\CommentModel.cs" />
+    <Compile Include="Models\Post\PostModel.cs" />
+    <Compile Include="Models\Post\PostStatus.cs" />
+    <Compile Include="Models\Tag\TagModel.cs" />
+    <Compile Include="Models\User\UserModel.cs" />
+    <Compile Include="Models\User\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories.Generic\IRepository.cs" />
-    <Compile Include="Repositories.Generic\Repository.cs" />
+    <Compile Include="Repositories\Generic\IRepository.cs" />
+    <Compile Include="Repositories\Generic\Repository.cs" />
     <Compile Include="Repositories\IPostRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Bootstrap.css" />
     <Content Include="Content\Images\120x120.png" />
     <Content Include="Content\Images\128x128.png" />
     <Content Include="Content\Images\152x152.png" />
@@ -193,11 +195,9 @@
     <Content Include="Content\Images\32x32.png" />
     <Content Include="Content\Images\96x96.png" />
     <Content Include="Content\Style.css" />
-    <Content Include="Content\Grid.css" />
-    <Content Include="Content\Reboot.css" />
-    <Content Include="Content\Utilities.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Bootstrap.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -215,9 +215,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="tsconfig.json" />

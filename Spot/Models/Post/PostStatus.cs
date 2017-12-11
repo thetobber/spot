@@ -1,4 +1,4 @@
-﻿namespace Spot.Models
+﻿namespace Spot.Models.Post
 {
     public enum PostStatus
     {

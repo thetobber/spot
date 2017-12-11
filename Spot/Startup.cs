@@ -4,11 +4,11 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using Spot.Models;
+using Spot.Models.User;
 using Spot.Repositories;
 
 [assembly: OwinStartup(typeof(Spot.Startup))]
@@ -21,14 +21,18 @@ namespace Spot
             var builder = new ContainerBuilder();
 
             // Register the databse context as a dependency
-            builder.RegisterType<AppDbContext>().AsSelf().InstancePerRequest();
+            builder.RegisterType<DatabaseContext>().AsSelf().InstancePerRequest();
 
             // Register dependencies for Identity
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.Register(c => app.GetDataProtectionProvider()).InstancePerRequest();
-            builder.RegisterType<AppUserStore>().As<IUserStore<AppUser>>().InstancePerRequest();
-            builder.RegisterType<AppUserManager>().AsSelf().InstancePerRequest();
-            builder.RegisterType<AppSignInManager>().AsSelf().InstancePerRequest();
+
+            builder.RegisterType<RoleStore>().AsSelf().InstancePerRequest();
+            builder.RegisterType<RoleManager>().AsSelf().InstancePerRequest();
+
+            builder.RegisterType<UserStore>().As<IUserStore<UserModel>>().InstancePerRequest();
+            builder.RegisterType<UserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<SignInManager>().AsSelf().InstancePerRequest();
 
             // Register repositories as dependencies
             builder.RegisterType<PostRepository>().As<IPostRepository>().InstancePerRequest();
@@ -44,11 +48,10 @@ namespace Spot
             app.UseAutofacMvc();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
-                AuthenticationType = "ApplicationCookie",
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 CookieHttpOnly = true,
                 CookieSecure = CookieSecureOption.SameAsRequest,
-                LoginPath = new PathString("/Auth/SignIn"),
-                LogoutPath = new PathString("/")
+                LoginPath = new PathString("/Auth/SignIn")
             });
         }
     }

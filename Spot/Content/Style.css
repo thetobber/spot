@@ -3,6 +3,10 @@ body {
     min-height: 100vh;
 }
 
+body {
+    background-color: #f7f7f7;
+}
+
 .list-unstyled {
     list-style: none;
     margin: 0;
@@ -19,6 +23,13 @@ body {
     outline: 0 none;
 }
 
+#header {
+    background-image: url(Images/Hypnotize.png);
+    background-repeat: repeat;
+    background-position: 0 0;
+    height: 200px;
+}
+
 #main {
     flex-grow: 1;
 }
@@ -30,4 +41,8 @@ img {
 label,
 input {
     display: block;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
 }

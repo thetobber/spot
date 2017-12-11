@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using Spot.Models;
+using Spot.Models.Post;
 
 namespace Spot.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(AppDbContext context)
+        protected override void Seed(DatabaseContext context)
         {
             // Update-Database -Verbose -StartUpProjectName Spot.Data
 
@@ -27,8 +27,8 @@ namespace Spot.Migrations
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Comments', RESEED, 0)");
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Tags', RESEED)");
 
-            List<Post> posts = new List<Post> {
-                new Post {
+            var posts = new List<PostModel> {
+                new PostModel {
                     Title = "Lorem ipsum",
                     Excerpt = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
                     Content = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
@@ -36,7 +36,7 @@ namespace Spot.Migrations
                     Modified = DateTime.Now,
                     Published = DateTime.Now
                 },
-                new Post {
+                new PostModel {
                     Title = "Aenean sit amet",
                     Excerpt = "Mauris id ullamcorper risus. Suspendisse consectetur ipsum ac fermentum condimentum.",
                     Content = "Mauris id ullamcorper risus. Suspendisse consectetur ipsum ac fermentum condimentum.",
@@ -44,7 +44,7 @@ namespace Spot.Migrations
                     Modified = DateTime.Now.AddDays(-1),
                     Published = DateTime.Now.AddDays(-1)
                 },
-                new Post {
+                new PostModel {
                     Title = "Mauris id ullamcorper",
                     Excerpt = "Aenean sit amet placerat leo, ut rhoncus orci. Aenean imperdiet eget massa vel convallis.",
                     Content = "Aenean sit amet placerat leo, ut rhoncus orci. Aenean imperdiet eget massa vel convallis.",
@@ -52,7 +52,7 @@ namespace Spot.Migrations
                     Modified = DateTime.Now.AddDays(-2),
                     Published = DateTime.Now.AddDays(-2)
                 },
-                new Post {
+                new PostModel {
                     Title = "Etiam ut magna vitae",
                     Excerpt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
