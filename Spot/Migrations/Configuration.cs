@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Spot.Models.Post;
+using Spot.Models.User;
 
 namespace Spot.Migrations
 {
@@ -14,19 +17,43 @@ namespace Spot.Migrations
 
         protected override void Seed(DatabaseContext context)
         {
-            // Update-Database -Verbose -StartUpProjectName Spot.Data
+            var roleManager = new RoleManager(new RoleStore(context));
+            var userManager = new UserManager<UserModel>(new UserStore(context));
+
+            var roles = new[] {
+                "Administrator",
+                "Editor",
+                "Subscriber"
+            };
+
+            foreach (var role in roles) {
+                if (!roleManager.RoleExists(role)) {
+                    roleManager.Create(new IdentityRole(role));
+                }
+            }
+
+            var user = new UserModel {
+                Email = "test@localhost.dev",
+                UserName = "test@localhost.dev",
+                EmailConfirmed = true
+            };
+
+            var userResult = userManager.Create(user, "Asd12wer");
+
+            if (userResult.Succeeded) {
+                userManager.AddToRole(user.Id, roles[0]);
+            }
 
             //Remove everything
             context.Posts.RemoveRange(context.Posts);
             context.Comments.RemoveRange(context.Comments);
             context.Tags.RemoveRange(context.Tags);
-            context.SaveChanges();
 
             //Reset primary key counter on posts and comments table
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Posts', RESEED, 0)");
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Comments', RESEED, 0)");
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Tags', RESEED)");
-
+            
             var posts = new List<PostModel> {
                 new PostModel {
                     Title = "Lorem ipsum",

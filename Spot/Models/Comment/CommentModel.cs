@@ -8,7 +8,7 @@ namespace Spot.Models.Comment
     {
         public int Id { get; set; }
         
-        public PostModel PostId { get; set; }
+        public PostModel Post { get; set; }
 
         [DataType(DataType.Html)]
         public string Content { get; set; }
