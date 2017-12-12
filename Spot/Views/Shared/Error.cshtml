@@ -1,13 +1,8 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
-</body>
-</html>
+﻿<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.Message)) {
+        <h2 class="font-weight-normal text-center">@ViewBag.Message</h2>
+    }
+    else {
+        <h2 class="font-weight-normal text-center">An unknown error occurred.</h2>
+    }
+</div>

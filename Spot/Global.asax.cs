@@ -24,8 +24,26 @@ namespace Spot
         private void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute("Auth", "Auth/{action}", new { action = "SignIn", controller = "Auth" });
-            routes.MapRoute("Home", "{action}", new { action = "Index", controller = "Home" });
+
+            // UserController routes
+            routes.MapRoute("UserRegister", "Register", new { action = "Register", controller = "User" });
+            routes.MapRoute("UserSignIn", "SignIn", new { action = "SignIn", controller = "User" });
+            routes.MapRoute("UserSignOut", "SignOut", new { action = "SignOut", controller = "User" });
+
+            // PostController routes
+            routes.MapRoute("PostNew", "Post/New", new { action = "New", controller = "Post" });
+            routes.MapRoute("PostSingle", "Post/{id}", new { action = "Single", controller = "Post" }, new { id = "[0-9]+" });
+            routes.MapRoute("PostPaged", "Posts/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
+            routes.MapRoute("PostEdit", "Post/Edit/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            routes.MapRoute("PostRemove", "Post/Remove/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            
+            // HomeController routes
+            routes.MapRoute("HomeIndex", "", new { action = "Index", controller = "Home" });
+            routes.MapRoute("HomeAbout", "About", new { action = "About", controller = "Home" });
+            routes.MapRoute("HomeContact", "Contact", new { action = "Contact", controller = "Home" });
+
+            // Default fall through route
+            routes.MapRoute("Default", "{*anything}", new { action = "NotFound", controller = "Home" });
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Spot.Models.Auth.ViewModels
+namespace Spot.Models.User.ViewModels
 {
     public class RegisterViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Spot.Models.Auth.ViewModels
+namespace Spot.Models.User.ViewModels
 {
     public class SignInViewModel
     {

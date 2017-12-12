@@ -4,6 +4,7 @@ using Spot.Repositories;
 
 namespace Spot.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IPostRepository PostRepository;
@@ -13,7 +14,6 @@ namespace Spot.Controllers
             PostRepository = postRepository;
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
             var model = await PostRepository.GetAllAsync();
@@ -35,5 +35,9 @@ namespace Spot.Controllers
 
             return View();
         }
+
+        public ActionResult NotFound() => View("404");
+
+        public ActionResult InternalServerError() => View("500");
     }
 }

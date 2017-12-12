@@ -7,7 +7,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
 using Owin;
-using Spot.Models;
 using Spot.Models.User;
 using Spot.Repositories;
 
@@ -32,6 +31,7 @@ namespace Spot
 
             builder.RegisterType<UserStore>().As<IUserStore<UserModel>>().InstancePerRequest();
             builder.RegisterType<UserManager>().AsSelf().InstancePerRequest();
+
             builder.RegisterType<SignInManager>().AsSelf().InstancePerRequest();
 
             // Register repositories as dependencies
@@ -47,11 +47,12 @@ namespace Spot
             app.UseAutofacMiddleware(container);
             app.UseAutofacMvc();
 
+            // Enables cookie authentication with OWIN middleware
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 CookieHttpOnly = true,
                 CookieSecure = CookieSecureOption.SameAsRequest,
-                LoginPath = new PathString("/Auth/SignIn")
+                LoginPath = new PathString("/SignIn")
             });
         }
     }

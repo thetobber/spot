@@ -46,15 +46,15 @@
                 <ul class="navbar-nav ml-sm-auto">
                     @if (!User.Identity.IsAuthenticated) {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("SignIn", "Auth")">Sign in</a>
+                            <a class="nav-link" href="@Url.Action("SignIn", "User")">Sign in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Register", "Auth")">Register</a>
+                            <a class="nav-link" href="@Url.Action("Register", "User")">Register</a>
                         </li>
                     }
                     else {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("SignOut", "Auth")">Sign out</a>
+                            <a class="nav-link" href="@Url.Action("SignOut", "User")">Sign out</a>
                         </li>
                     }
                 </ul>

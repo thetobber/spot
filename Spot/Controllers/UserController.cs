@@ -3,19 +3,19 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Spot.Models.Auth.ViewModels;
+using Spot.Models.User.ViewModels;
 using Spot.Models.User;
 
 namespace Spot.Controllers
 {
     [AllowAnonymous]
-    public class AuthController : Controller
+    public class UserController : Controller
     {
         private readonly UserManager UserManager;
         private readonly SignInManager SignInManager;
         private readonly IAuthenticationManager AuthManager;
 
-        public AuthController(UserManager userManager, SignInManager signInManager, IAuthenticationManager authManager)
+        public UserController(UserManager userManager, SignInManager signInManager, IAuthenticationManager authManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;

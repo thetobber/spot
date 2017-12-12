@@ -1,0 +1,66 @@
+﻿@model Spot.Models.Generic.ViewModels.PagedViewModel<Spot.Models.Post.ViewModels.PostExcerptViewModel>
+
+@{
+    ViewBag.Title = "Posts";
+}
+
+<div class="container py-5">
+    @foreach (var Post in Model.Entities) {
+        <article class="mb-5">
+            <header>
+                <h3>@Post.Title</h3>
+            </header>
+            <section>
+                <p>@Post.Excerpt</p>
+            </section>
+            <footer class="d-flex">
+                <span>Published @Post.Published and last modified @Post.Modified</span>
+                <span class="ml-auto">
+                    <a href="@Url.Action("Single", "Post", new { id = Post.Id })">Read more</a>
+                </span>
+            </footer>
+        </article>
+    }
+
+    @Model.Pages
+
+    <nav aria-label="Post pagination">
+        <ul class="pagination justify-content-center">
+            @if (Model.Previous) {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = Model.Index - 1 })">Previous</a>
+                </li>
+            }
+            else {
+                <li class="page-item disabled">
+                    <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = Model.Index - 1 })" tabindex="-1">Previous</a>
+                </li>
+            }
+
+            @for (var i = 1; i <= Model.Pages; ++i) {
+
+                if (i == Model.Index) {
+                    <li class="page-item active">
+                        <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = i })">@i <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                else {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = i })">@i</a>
+                    </li>
+                }
+            }
+
+            @if (Model.Next) {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = Model.Index + 1 })">Next</a>
+                </li>
+            }
+            else {
+                <li class="page-item disabled">
+                    <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = Model.Index + 1 })" tabindex="-1">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

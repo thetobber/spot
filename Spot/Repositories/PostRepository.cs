@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Spot.Models;
+using Spot.Models.Generic.ViewModels;
 using Spot.Models.Post;
+using Spot.Models.Post.ViewModels;
 using Spot.Repositories.Generic;
 
 namespace Spot.Repositories
@@ -28,14 +29,32 @@ namespace Spot.Repositories
                 .SingleAsync(p => p.Id == id && p.Status == PostStatus.Public);
         }
 
-        public async Task<IEnumerable<PostModel>> GetPagedAsync(int pageIndex, int pageSize)
+        public async Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex = 1, int pageSize = 10)
         {
-            return await DatabaseContext.Posts
+            var query = DatabaseContext.Posts
                 .Where(p => p.Status == PostStatus.Public)
                 .OrderByDescending(p => p.Published)
+                .Select(p => new PostExcerptViewModel {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Excerpt = p.Excerpt,
+                    Created = p.Created,
+                    Modified = p.Modified,
+                    Published = p.Published
+                });
+
+            var total = await query.CountAsync();
+
+            var result = await query
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return new PagedViewModel<PostExcerptViewModel> {
+                Pages = total > pageSize ? total / pageSize : pageSize / total,
+                Index = pageIndex,
+                Entities = result
+            };
         }
 
         public async Task<IEnumerable<PostModel>> GetPagedByTagAsync(int pageIndex, int pageSize, int tagId)
@@ -52,6 +71,11 @@ namespace Spot.Repositories
         public Task<IEnumerable<PostModel>> GetPagedByAuthorAsync(int pageIndex, int pageSize, string author)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> GetTotalCount()
+        {
+            return await DatabaseContext.Posts.CountAsync();
         }
     }
 }

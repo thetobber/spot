@@ -161,14 +161,18 @@
     <Compile Include="App_Start\DatabaseContext.cs" />
     <Compile Include="App_Start\UserStore.cs" />
     <Compile Include="App_Start\UserManager.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Auth.ViewModels\RegisterViewModel.cs" />
-    <Compile Include="Models\Auth.ViewModels\SignInViewModel.cs" />
+    <Compile Include="Models\Generic.ViewModels\PagedViewModel.cs" />
+    <Compile Include="Models\Post.ViewModels\PostExcerptViewModel.cs" />
+    <Compile Include="Models\Post.ViewModels\PostPagedViewModel.cs" />
+    <Compile Include="Models\User.ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Models\User.ViewModels\SignInViewModel.cs" />
     <Compile Include="Models\Comment\CommentModel.cs" />
     <Compile Include="Models\Post\PostModel.cs" />
     <Compile Include="Models\Post\PostStatus.cs" />
@@ -198,6 +202,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Bootstrap.js" />
+    <Content Include="Scripts\jQuery.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -219,8 +224,13 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="tsconfig.json" />
-    <Content Include="Views\Auth\SignIn.cshtml" />
-    <Content Include="Views\Auth\Register.cshtml" />
+    <Content Include="Views\User\SignIn.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\Post\Single.cshtml" />
+    <Content Include="Views\Shared\404.cshtml" />
+    <Content Include="Views\Shared\500.cshtml" />
+    <Content Include="Views\Shared\_Blank.cshtml" />
+    <Content Include="Views\Post\Paged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
