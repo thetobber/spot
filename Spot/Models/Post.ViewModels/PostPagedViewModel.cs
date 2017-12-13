@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Spot.Models.Post.ViewModels
 {
@@ -17,6 +14,6 @@ namespace Spot.Models.Post.ViewModels
 
         public bool HasPrevious => (Index - 1) * Size % Count == 0;
 
-        public IEnumerable<PostModel> Posts { get; set; }
+        public ICollection<PostModel> Posts { get; set; }
     }
 }

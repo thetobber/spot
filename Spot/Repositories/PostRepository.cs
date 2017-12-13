@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Spot.Models.Generic.ViewModels;
@@ -17,65 +18,49 @@ namespace Spot.Repositories
 
         public PostRepository(DatabaseContext context) : base(context) { }
 
-        internal static PostRepository Create()
+        public async Task<PostEditViewModel> GetEditAsync(int id)
         {
-            throw new NotImplementedException();
-        }
+            var result = await DatabaseContext.Posts
+                .Select(p => new PostEditViewModel {
+                    Id = p.Id,
+                    Status = p.Status,
+                    Title = p.Title,
+                    Excerpt = p.Excerpt,
+                    Content = p.Content
+                })
+                .SingleOrDefaultAsync(p => p.Id == id);
 
-        public async Task<PostModel> GetWithCommentsAsync(int id)
-        {
-            return await DatabaseContext.Posts
-                .Include(p => p.Comments)
-                .SingleAsync(p => p.Id == id && p.Status == PostStatus.Public);
+            return result;
         }
 
         public async Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex = 1, int pageSize = 10)
         {
             var query = DatabaseContext.Posts
                 .Where(p => p.Status == PostStatus.Public)
-                .OrderByDescending(p => p.Published)
+                .OrderByDescending(p => p.Published);
+
+            var total = await query.CountAsync();
+
+            var result = await query
+                .Include(p => p.Tags)
                 .Select(p => new PostExcerptViewModel {
                     Id = p.Id,
                     Title = p.Title,
                     Excerpt = p.Excerpt,
                     Created = p.Created,
                     Modified = p.Modified,
-                    Published = p.Published
-                });
-
-            var total = await query.CountAsync();
-
-            var result = await query
+                    Published = p.Published,
+                    Tags = p.Tags
+                })
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return new PagedViewModel<PostExcerptViewModel> {
-                Pages = total > pageSize ? total / pageSize : pageSize / total,
+                Pages = (total + pageSize - 1) / pageSize,
                 Index = pageIndex,
                 Entities = result
             };
-        }
-
-        public async Task<IEnumerable<PostModel>> GetPagedByTagAsync(int pageIndex, int pageSize, int tagId)
-        {
-            return await DatabaseContext.Posts
-                .Where(p => p.Status == PostStatus.Public)
-                .Where(p => p.Tags.Any(t => t.Id == tagId))
-                .OrderByDescending(p => p.Published)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
-
-        public Task<IEnumerable<PostModel>> GetPagedByAuthorAsync(int pageIndex, int pageSize, string author)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> GetTotalCount()
-        {
-            return await DatabaseContext.Posts.CountAsync();
         }
     }
 }

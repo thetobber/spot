@@ -2,9 +2,9 @@
 {
     public enum PostStatus
     {
+        Draft,
         Public,
         Private,
-        Draft,
         Thrash
     }
 }

@@ -46,7 +46,7 @@ namespace Spot.Repositories.Generic
             Context.Set<TEntity>().RemoveRange(entities);
         }
 
-        public async Task<int> Save()
+        public async Task<int> SaveAsync()
         {
             return await Context.SaveChangesAsync();
         }

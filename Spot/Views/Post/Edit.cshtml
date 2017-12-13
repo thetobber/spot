@@ -1,0 +1,75 @@
+﻿@model Spot.Models.Post.ViewModels.PostEditViewModel
+
+@{
+    MvcHtmlString error;
+}
+
+<div class="container">
+    <form action="@Url.Action("Edit", "Post")" method="post" autocomplete="off">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group">
+            @Model.Status
+            @Html.LabelFor(m => m.Status)
+            @{
+                error = Html.ValidationMessageFor(m => m.Status);
+
+                if (MvcHtmlString.IsNullOrEmpty(error)) {
+                    @Html.EnumDropDownListFor(m => m.Status, null, new { @class = "form-control" });
+                }
+                else {
+                    @Html.EnumDropDownListFor(m => m.Status, null, new { @class = "form-control is-invalid" });
+                    <div class="invalid-feedback">@error</div>
+                }
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Title)
+            @{
+                error = Html.ValidationMessageFor(m => m.Title);
+
+                if (MvcHtmlString.IsNullOrEmpty(error)) {
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" });
+                }
+                else {
+                    @Html.TextAreaFor(m => m.Title, new { @class = "form-control is-invalid" });
+                    <div class="invalid-feedback">@error</div>
+                }
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Excerpt)
+            @{
+                error = Html.ValidationMessageFor(m => m.Excerpt);
+
+                if (MvcHtmlString.IsNullOrEmpty(error)) {
+                    @Html.TextAreaFor(m => m.Excerpt, new { @class = "form-control" });
+                }
+                else {
+                    @Html.TextAreaFor(m => m.Excerpt, new { @class = "form-control is-invalid" });
+                    <div class="invalid-feedback">@error</div>
+                }
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Content)
+            @{
+                error = Html.ValidationMessageFor(m => m.Content);
+
+                if (MvcHtmlString.IsNullOrEmpty(error)) {
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control" });
+                }
+                else {
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control is-invalid" });
+                    <div class="invalid-feedback">@error</div>
+                }
+            }
+        </div>
+
+        <button class="btn btn-success btn-block" type="submit">Save post</button>
+    </form>
+</div>

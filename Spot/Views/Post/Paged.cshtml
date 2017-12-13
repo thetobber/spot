@@ -13,6 +13,13 @@
             <section>
                 <p>@Post.Excerpt</p>
             </section>
+            @if (Post.Tags != null) {
+                <section>
+                    @foreach (var Tag in Post.Tags) {
+                        <a href="#">@Tag.Name</a>
+                    }
+                </section>
+            }
             <footer class="d-flex">
                 <span>Published @Post.Published and last modified @Post.Modified</span>
                 <span class="ml-auto">
@@ -21,8 +28,6 @@
             </footer>
         </article>
     }
-
-    @Model.Pages
 
     <nav aria-label="Post pagination">
         <ul class="pagination justify-content-center">

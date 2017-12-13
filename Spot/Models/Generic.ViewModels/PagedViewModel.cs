@@ -12,6 +12,6 @@ namespace Spot.Models.Generic.ViewModels
 
         public bool Previous => Index > 1 && Index <= Pages;
 
-        public IEnumerable<TEntity> Entities { get; set; }
+        public ICollection<TEntity> Entities { get; set; }
     }
 }

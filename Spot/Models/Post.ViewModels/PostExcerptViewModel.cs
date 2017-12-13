@@ -22,6 +22,6 @@ namespace Spot.Models.Post.ViewModels
         [DataType(DataType.DateTime)]
         public DateTime? Published { get; set; }
 
-        public IEnumerable<TagModel> Tags { get; set; }
+        public ICollection<TagModel> Tags { get; set; }
     }
 }

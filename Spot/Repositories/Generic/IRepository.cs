@@ -20,6 +20,6 @@ namespace Spot.Repositories.Generic
 
         void RemoveRange(IEnumerable<TEntity> entities);
 
-        Task<int> Save();
+        Task<int> SaveAsync();
     }
 }

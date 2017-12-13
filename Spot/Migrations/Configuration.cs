@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Spot.Models.Post;
+using Spot.Models.Tag;
 using Spot.Models.User;
 
 namespace Spot.Migrations
@@ -85,7 +86,12 @@ namespace Spot.Migrations
                     Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     Created = DateTime.Now.AddDays(-3),
                     Modified = DateTime.Now.AddDays(-3),
-                    Published = DateTime.Now.AddDays(-3)
+                    Published = DateTime.Now.AddDays(-3),
+                    Tags = new List<TagModel> {
+                        new TagModel {
+                            Name = "Test"
+                        }
+                    }
                 }
             };
 
