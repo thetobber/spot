@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Spot.Models.Category;
 using Spot.Models.Comment;
-using Spot.Models.Tag;
+using Spot.Models.User;
 
 namespace Spot.Models.Post
 {
@@ -30,8 +31,10 @@ namespace Spot.Models.Post
         [DataType(DataType.DateTime)]
         public DateTime? Published { get; set; }
 
-        public ICollection<CommentModel> Comments { get; set; }
+        public UserModel Author { get; set; }
 
-        public ICollection<TagModel> Tags { get; set; }
+        public CategoryModel Category { get; set; }
+
+        public ICollection<CommentModel> Comments { get; set; }
     }
 }

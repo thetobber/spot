@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Spot.Models.Category;
 using Spot.Models.Post;
-using Spot.Models.Tag;
 using Spot.Models.User;
 
 namespace Spot.Migrations
@@ -35,7 +35,7 @@ namespace Spot.Migrations
 
             var user = new UserModel {
                 Email = "test@localhost.dev",
-                UserName = "test@localhost.dev",
+                UserName = "Tobias",
                 EmailConfirmed = true
             };
 
@@ -48,54 +48,34 @@ namespace Spot.Migrations
             //Remove everything
             context.Posts.RemoveRange(context.Posts);
             context.Comments.RemoveRange(context.Comments);
-            context.Tags.RemoveRange(context.Tags);
+            context.Categories.RemoveRange(context.Categories);
 
             //Reset primary key counter on posts and comments table
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Posts', RESEED, 0)");
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Comments', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Tags', RESEED)");
-            
-            var posts = new List<PostModel> {
-                new PostModel {
+            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Categories', RESEED)");
+
+            var testCategory = new CategoryModel {
+                Name = "Test",
+                Description = "Curabitur ut diam ante. Fusce eget dapibus urna, sed consequat leo. Curabitur aliquet metus eget dui suscipit, in aliquam tellus faucibus. Maecenas eu libero aliquet dui tincidunt cursus. Curabitur at mollis quam, et eleifend quam."
+            };
+
+            context.Categories.Add(testCategory);
+
+            for (var i = 0; i < 34; ++i) {
+                context.Posts.Add(new PostModel {
+                    Status = PostStatus.Public,
                     Title = "Lorem ipsum",
                     Excerpt = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
                     Content = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
                     Created = DateTime.Now,
                     Modified = DateTime.Now,
-                    Published = DateTime.Now
-                },
-                new PostModel {
-                    Title = "Aenean sit amet",
-                    Excerpt = "Mauris id ullamcorper risus. Suspendisse consectetur ipsum ac fermentum condimentum.",
-                    Content = "Mauris id ullamcorper risus. Suspendisse consectetur ipsum ac fermentum condimentum.",
-                    Created = DateTime.Now.AddDays(-1),
-                    Modified = DateTime.Now.AddDays(-1),
-                    Published = DateTime.Now.AddDays(-1)
-                },
-                new PostModel {
-                    Title = "Mauris id ullamcorper",
-                    Excerpt = "Aenean sit amet placerat leo, ut rhoncus orci. Aenean imperdiet eget massa vel convallis.",
-                    Content = "Aenean sit amet placerat leo, ut rhoncus orci. Aenean imperdiet eget massa vel convallis.",
-                    Created = DateTime.Now.AddDays(-2),
-                    Modified = DateTime.Now.AddDays(-2),
-                    Published = DateTime.Now.AddDays(-2)
-                },
-                new PostModel {
-                    Title = "Etiam ut magna vitae",
-                    Excerpt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    Created = DateTime.Now.AddDays(-3),
-                    Modified = DateTime.Now.AddDays(-3),
-                    Published = DateTime.Now.AddDays(-3),
-                    Tags = new List<TagModel> {
-                        new TagModel {
-                            Name = "Test"
-                        }
-                    }
-                }
-            };
+                    Published = DateTime.Now,
+                    Category = testCategory,
+                    Author = user
+                });
+            }
 
-            posts.ForEach(p => context.Posts.Add(p));
             context.SaveChanges();
         }
     }

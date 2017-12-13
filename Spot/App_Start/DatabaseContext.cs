@@ -1,9 +1,9 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Spot.Models.Tag;
 using Spot.Models.Post;
 using Spot.Models.User;
 using Spot.Models.Comment;
+using Spot.Models.Category;
 
 namespace Spot
 {
@@ -11,7 +11,7 @@ namespace Spot
     {
         public DbSet<PostModel> Posts { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
-        public DbSet<TagModel> Tags { get; set; }
+        public DbSet<CategoryModel> Categories { get; set; }
 
         public DatabaseContext() : base("DefaultConnection") { }
 
@@ -22,7 +22,7 @@ namespace Spot
             // Custom models -> table names
             builder.Entity<PostModel>().ToTable("Posts");
             builder.Entity<CommentModel>().ToTable("Comments");
-            builder.Entity<TagModel>().ToTable("Tags");
+            builder.Entity<CategoryModel>().ToTable("Categories");
             builder.Entity<UserModel>().ToTable("Users");
 
             // Identity related model -> table names

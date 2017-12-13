@@ -1,8 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Dynamic;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Spot.Models.Generic.ViewModels;
@@ -33,25 +29,44 @@ namespace Spot.Repositories
             return result;
         }
 
-        public async Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex = 1, int pageSize = 10)
+        public async Task<PostModel> GetAsync(int id, PostStatus? status = PostStatus.Public)
         {
             var query = DatabaseContext.Posts
-                .Where(p => p.Status == PostStatus.Public)
-                .OrderByDescending(p => p.Published);
+                .Include(p => p.Author)
+                .Include(p => p.Comments)
+                .Include(p => p.Category);
 
-            var total = await query.CountAsync();
+            if (status != null)
+                query.Where(p => p.Status == status);
 
-            var result = await query
-                .Include(p => p.Tags)
+            return await query
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex, int pageSize, PostStatus? status = PostStatus.Public)
+        {
+            var query = DatabaseContext.Posts
+                .Include(p => p.Author)
+                .Include(p => p.Category)
                 .Select(p => new PostExcerptViewModel {
                     Id = p.Id,
+                    Author = p.Author.UserName,
+                    Status = p.Status,
                     Title = p.Title,
                     Excerpt = p.Excerpt,
                     Created = p.Created,
                     Modified = p.Modified,
                     Published = p.Published,
-                    Tags = p.Tags
-                })
+                    Category = p.Category
+                });
+
+            if (status != null)
+                query = query.Where(p => p.Status == status);
+
+            var total = await query.CountAsync();
+
+            var result = await query
+                .OrderByDescending(p => p.Published)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

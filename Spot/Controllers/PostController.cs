@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Spot.Models.Generic.ViewModels;
 using Spot.Models.Post;
@@ -25,29 +22,21 @@ namespace Spot.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> New(PostNewViewModel model)
+        public async Task<ActionResult> New([Bind(Exclude = "Id,Created,Modified,Published")]PostModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-
-            var post = new PostModel {
-                Status = model.Status,
-                Title = model.Title,
-                Content = model.Content,
-                Excerpt = model.Excerpt,
-                Created = DateTime.Now,
-                Modified = DateTime.Now
-            };
-
-            if (model.Status == PostStatus.Public)
-                post.Published = DateTime.Now;
+            
+            model.Created = DateTime.Now;
+            model.Modified = DateTime.Now;
+            model.Published = DateTime.Now;
 
             try {
-                PostRepository.Add(post);
+                PostRepository.Add(model);
                 var result = await PostRepository.SaveAsync();
 
                 if (result > 0)
-                    return RedirectToAction("Edit", "Post", new { id = post.Id });
+                    return RedirectToAction("Edit", "Post", new { id = model.Id });
             }
             catch {
                 return View("500");
@@ -63,7 +52,7 @@ namespace Spot.Controllers
             PostModel model;
 
             try {
-                model = await PostRepository.GetAsync(id);
+                model = await PostRepository.GetAsync(id, PostStatus.Public);
             }
             catch {
                 return View("500");
@@ -85,8 +74,8 @@ namespace Spot.Controllers
 
             PagedViewModel<PostExcerptViewModel> model;
 
-                model = await PostRepository.GetPagedAsync(pageIndex);
             try {
+                model = await PostRepository.GetPagedAsync(pageIndex, 9);
             }
             catch {
                 return View("500");
@@ -96,12 +85,13 @@ namespace Spot.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator,Editor")]
         public async Task<ActionResult> Edit(int id)
         {
-            PostEditViewModel model;
+            PostModel model;
 
             try {
-                model = await PostRepository.GetEditAsync(id);
+                model = await PostRepository.GetAsync(id, null);
             }
             catch {
                 return View("500");
@@ -115,33 +105,25 @@ namespace Spot.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(PostEditViewModel model)
+        [Authorize(Roles = "Administrator,Editor")]
+        public async Task<ActionResult> Edit([Bind(Exclude = "Modified,Published")]PostModel model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            model.Modified = DateTime.Now;
+            model.Published = DateTime.Now;
+
+            PostRepository.Update(model);
+
+            var result = await PostRepository.SaveAsync();
+
+            if (result > 0) {
+                ViewBag.Success = $"{model.Title} has been updated.";
+                return View(model);
+            }
+
             try {
-                var post = await PostRepository.GetAsync(model.Id);
-
-                if (post == null)
-                    return View("404"); // Return post has been removed while editing
-
-                if (model.Status == PostStatus.Public && post.Published == null)
-                    post.Published = DateTime.Now;
-                else if (model.Status != PostStatus.Public)
-                    post.Published = null;
-
-                post.Status = model.Status;
-                post.Title = model.Title;
-                post.Excerpt = model.Excerpt;
-                post.Content = model.Content;
-                post.Modified = DateTime.Now;
-
-                PostRepository.Update(post);
-
-                var result = await PostRepository.SaveAsync();
-
-                if (result > 0) {
-                    ViewBag.Success = $"{post.Title} has been updated.";
-                    return View(model);
-                }
             }
             catch {
                 return View("500");
@@ -151,6 +133,7 @@ namespace Spot.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Editor")]
         public ActionResult Remove() => Content("Create");
     }
 }

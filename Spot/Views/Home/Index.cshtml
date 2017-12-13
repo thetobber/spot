@@ -1,16 +1,7 @@
 ﻿@model IEnumerable<Spot.Models.Post.PostModel>
 
-<header id="header">
-    <div class="container py-5">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ullamcorper accumsan est, sit amet efficitur nisi sagittis nec. Nullam pellentesque varius sapien venenatis sodales.</p>
-    </div>
-</header>
-
-@foreach (var post in Model)
-{
-    <article>
-        <h4>@post.Title</h4>
-        <section>@post.Excerpt</section>
-        <footer>@post.Published</footer>
-    </article>
+@{
+    ViewBag.Title = "Home";
 }
+
+<h1>Home</h1>

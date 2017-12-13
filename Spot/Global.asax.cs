@@ -31,11 +31,14 @@ namespace Spot
             routes.MapRoute("UserSignOut", "SignOut", new { action = "SignOut", controller = "User" });
 
             // PostController routes
-            routes.MapRoute("PostNew", "Post/New", new { action = "New", controller = "Post" });
-            routes.MapRoute("PostSingle", "Post/{id}", new { action = "Single", controller = "Post" }, new { id = "[0-9]+" });
-            routes.MapRoute("PostPaged", "Posts/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
-            routes.MapRoute("PostEdit", "Post/Edit/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
-            routes.MapRoute("PostRemove", "Post/Remove/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            routes.MapRoute("PostSingle", "post/{id}", new { action = "Single", controller = "Post" }, new { id = "[0-9]+" });
+            routes.MapRoute("PostNew", "post/new", new { action = "New", controller = "Post" });
+            routes.MapRoute("PostEdit", "post/edit/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            routes.MapRoute("PostRemove", "post/remove/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+
+            //routes.MapRoute("PostPaged", "feed/{tag}/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
+            routes.MapRoute("PostPaged", "feed/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
+
             
             // HomeController routes
             routes.MapRoute("HomeIndex", "", new { action = "Index", controller = "Home" });

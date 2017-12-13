@@ -14,13 +14,7 @@ namespace Spot.Controllers
             PostRepository = postRepository;
         }
 
-        public async Task<ActionResult> Index()
-        {
-            var model = await PostRepository.GetAllAsync();
-
-            ViewBag.Title = "Home Page";
-            return View(model);
-        }
+        public ActionResult Index() => View();
 
         public ActionResult About()
         {

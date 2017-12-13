@@ -1,5 +1,4 @@
-﻿@model Spot.Models.Post.ViewModels.PostEditViewModel
-
+﻿@model Spot.Models.Post.PostModel
 @{
     MvcHtmlString error;
 }
@@ -8,6 +7,7 @@
     <form action="@Url.Action("Edit", "Post")" method="post" autocomplete="off">
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Created)
 
         <div class="form-group">
             @Model.Status

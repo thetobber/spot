@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Spot.Models.Generic.ViewModels;
 using Spot.Models.Post;
 using Spot.Models.Post.ViewModels;
@@ -11,6 +10,8 @@ namespace Spot.Repositories
     {
         Task<PostEditViewModel> GetEditAsync(int id);
 
-        Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex = 1, int pageSize = 10);
+        Task<PostModel> GetAsync(int id, PostStatus? status = PostStatus.Public);
+
+        Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex, int pageSize, PostStatus? status = PostStatus.Public);
     }
 }

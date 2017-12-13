@@ -168,6 +168,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Category\CategoryModel.cs" />
     <Compile Include="Models\Generic.ViewModels\PagedViewModel.cs" />
     <Compile Include="Models\Post.ViewModels\PostEditViewModel.cs" />
     <Compile Include="Models\Post.ViewModels\PostExcerptViewModel.cs" />
@@ -178,7 +179,6 @@
     <Compile Include="Models\Comment\CommentModel.cs" />
     <Compile Include="Models\Post\PostModel.cs" />
     <Compile Include="Models\Post\PostStatus.cs" />
-    <Compile Include="Models\Tag\TagModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Models\User\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

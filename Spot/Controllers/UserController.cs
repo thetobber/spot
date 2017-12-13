@@ -12,12 +12,14 @@ namespace Spot.Controllers
     public class UserController : Controller
     {
         private readonly UserManager UserManager;
+        private readonly RoleManager RoleManager;
         private readonly SignInManager SignInManager;
         private readonly IAuthenticationManager AuthManager;
 
-        public UserController(UserManager userManager, SignInManager signInManager, IAuthenticationManager authManager)
+        public UserController(UserManager userManager, RoleManager roleManager, SignInManager signInManager, IAuthenticationManager authManager)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
             SignInManager = signInManager;
             AuthManager = authManager;
         }
@@ -65,8 +67,12 @@ namespace Spot.Controllers
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
-                    return RedirectToAction("SignIn");
+                if (result.Succeeded) {
+                    var roleResult = await UserManager.AddToRoleAsync(user.Id, "Subscriber");
+
+                    if (roleResult.Succeeded)
+                        return RedirectToAction("SignIn");
+                }
 
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error);

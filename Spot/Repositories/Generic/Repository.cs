@@ -10,43 +10,43 @@ namespace Spot.Repositories.Generic
 
         public Repository(DbContext dbContext) => Context = dbContext;
 
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             Context.Set<TEntity>().Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public virtual void AddRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().AddRange(entities);
         }
 
-        public async Task<TEntity> GetAsync(TKey key)
+        public async virtual Task<TEntity> GetAsync(TKey key)
         {
             return await Context.Set<TEntity>().FindAsync(key);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async virtual Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await Context.Set<TEntity>().ToListAsync();
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             Context.Set<TEntity>().Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Remove(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             Context.Set<TEntity>().Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public virtual void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
         }
 
-        public async Task<int> SaveAsync()
+        public async virtual Task<int> SaveAsync()
         {
             return await Context.SaveChangesAsync();
         }
