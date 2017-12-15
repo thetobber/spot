@@ -201,7 +201,6 @@
     <Content Include="Content\Images\32x32.png" />
     <Content Include="Content\Images\96x96.png" />
     <Content Include="Content\Style.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Bootstrap.js" />
     <Content Include="Scripts\jQuery.js" />
@@ -225,7 +224,6 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="tsconfig.json" />
     <Content Include="Views\User\SignIn.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Post\Single.cshtml" />
@@ -238,9 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\Test.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
