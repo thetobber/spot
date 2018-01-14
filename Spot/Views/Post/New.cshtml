@@ -5,7 +5,7 @@
     MvcHtmlString error;
 }
 
-<div class="container">
+<main class="container">
     <form action="@Url.Action("New", "Post")" method="post" autocomplete="off">
         @Html.AntiForgeryToken()
 
@@ -71,4 +71,4 @@
 
         <button class="btn btn-success btn-block" type="submit">Add new post</button>
     </form>
-</div>
+</main>
