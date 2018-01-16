@@ -1,12 +1,6 @@
 ﻿@{
-    var navLinks = new List<string[]> {
-new [] { "Paged", "Post", "Posts" },
-new [] { "About", "Home", "About" },
-new [] { "Contact", "Home", "Contact" }
-};
-
     var currentAction = ViewContext.RouteData.GetRequiredString("action");
-    var currentController = ViewContext.RouteData.GetRequiredString("controller");
+    //var currentController = ViewContext.RouteData.GetRequiredString("controller");
 }
 
 <nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark py-3">
@@ -19,36 +13,25 @@ new [] { "Contact", "Home", "Contact" }
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <svg class="d-block" width="44" height="36" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                <rect rx="4" height="34" width="42" y="1" x="1" stroke-width="2" stroke="#fff" fill="none" />
                 <rect rx="2" height="2" width="28" y="7" x="8" stroke-width="0" stroke="none" fill="#fff" />
                 <rect rx="2" height="2" width="28" y="16" x="8" stroke-width="0" stroke="none" fill="#fff" />
                 <rect rx="2" height="2" width="28" y="26" x="8" stroke-width="0" stroke="none" fill="#fff" />
             </svg>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav">
-                @foreach (var link in navLinks) {
-                    <li class="nav-item@(currentAction == link[0] && currentController == link[1] ? " active" : "")">
-                        <a class="nav-link" href="@Url.Action(link[0], link[1])">@link[2]</a>
-                    </li>
-                }
-            </ul>
-            <ul class="navbar-nav ml-sm-auto">
-                @if (!User.Identity.IsAuthenticated) {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("SignIn", "User")">Sign in</a>
-                    </li>
+            <div class="navbar-nav w-100">
+                <a class="nav-item nav-link@(currentAction == "Paged" ? " active" : "")" href="@Url.Action("Paged", "Post")">Posts</a>
+                <a class="nav-item nav-link@(currentAction == "About" ? " active" : "")" href="@Url.Action("About", "Home")">About</a>
+                <a class="nav-item nav-link@(currentAction == "Contact" ? " active" : "")" href="@Url.Action("Contact", "Home")">Contact</a>
 
-                    <li class="nav-item@(currentAction == "Register" && currentController == "User" ? " active" : "")">
-                        <a class="nav-link" href="@Url.Action("Register", "User")">Register</a>
-                    </li>
+                @if (!User.Identity.IsAuthenticated) {
+                    <a class="nav-item nav-link ml-sm-auto" href="@Url.Action("SignIn", "User")">Sign in</a>
+                    <a class="nav-item nav-link@(currentAction == "Register" ? " active" : "")" href="@Url.Action("Register", "User")">Register</a>
                 }
                 else {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("SignOut", "User")">Sign out</a>
-                    </li>
+                    <a class="nav-item nav-link ml-sm-auto" href="@Url.Action("SignOut", "User")">Sign out</a>
                 }
-            </ul>
+            </div>
         </div>
     </div>
 </nav>

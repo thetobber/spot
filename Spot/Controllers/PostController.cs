@@ -8,6 +8,7 @@ using Spot.Repositories;
 
 namespace Spot.Controllers
 {
+    [RoutePrefix("posts")]
     public class PostController : Controller
     {
         private readonly IPostRepository PostRepository;
@@ -17,16 +18,15 @@ namespace Spot.Controllers
             PostRepository = postRepository;
         }
 
-        [HttpGet]
+        [HttpGet, Route("create")]
         public ActionResult New() => View();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> New([Bind(Exclude = "Id,Created,Modified,Published")]PostModel model)
+        [HttpPost, Route("create"), ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Exclude = "Id,Created,Modified,Published")]PostModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-            
+
             model.Created = DateTime.Now;
             model.Modified = DateTime.Now;
             model.Published = DateTime.Now;
@@ -46,6 +46,7 @@ namespace Spot.Controllers
         }
 
         [HttpGet]
+        [Route("single/{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult> Single(int id)
         {
@@ -66,6 +67,7 @@ namespace Spot.Controllers
         }
 
         [HttpGet]
+        [Route("{pageIndex:int?}")]
         [AllowAnonymous]
         public async Task<ActionResult> Paged(int pageIndex = 1)
         {
@@ -85,6 +87,7 @@ namespace Spot.Controllers
         }
 
         [HttpGet]
+        [Route("edit/{id:int}")]
         [Authorize(Roles = "Administrator,Editor")]
         public async Task<ActionResult> Edit(int id)
         {
@@ -105,6 +108,7 @@ namespace Spot.Controllers
         }
 
         [HttpPost]
+        [Route("edit/{id:int}")]
         [Authorize(Roles = "Administrator,Editor")]
         public async Task<ActionResult> Edit([Bind(Exclude = "Modified,Published")]PostModel model)
         {
@@ -118,12 +122,11 @@ namespace Spot.Controllers
 
             var result = await PostRepository.SaveAsync();
 
-            if (result > 0) {
-                ViewBag.Success = $"{model.Title} has been updated.";
-                return View(model);
-            }
-
             try {
+                if (result > 0) {
+                    ViewBag.Success = $"{model.Title} has been updated.";
+                    return View(model);
+                }
             }
             catch {
                 return View("500");
@@ -132,8 +135,26 @@ namespace Spot.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        //[HttpPost]
+        [Route("remove/{id:int}")]
         [Authorize(Roles = "Administrator,Editor")]
-        public ActionResult Remove() => Content("Create");
+        public async Task<ActionResult> Remove(int id)
+        {
+            PostRepository.Remove(new PostModel { Id = id });
+
+            var result = await PostRepository.SaveAsync();
+
+            try {
+                if (result > 0) {
+                    ViewBag.Success = "Post was succesfully removed.";
+                    return RedirectToAction("Paged");
+                }
+            }
+            catch {
+                return View("500");
+            }
+
+            return RedirectToAction("Edit", new { id });
+        }
     }
 }

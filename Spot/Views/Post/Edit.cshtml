@@ -3,7 +3,7 @@
     MvcHtmlString error;
 }
 
-<main class="container">
+<main id="main" class="container">
     <form action="@Url.Action("Edit", "Post")" method="post" autocomplete="off">
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)

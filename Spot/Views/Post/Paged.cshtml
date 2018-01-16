@@ -12,24 +12,22 @@
     </div>
 </header>
 
-<main class="container py-5">
+<main id="main" class="container py-5">
     <div class="row justify-content-center">
         @foreach (var post in Model.Entities) {
             <div class="col-12 col-md-6 col-lg-4">
                 <article class="card mb-3 mb-sm-4">
                     <header class="mt-5 pt-5 px-4">
                         <strong class="m-0 text-uppercase">@post.Category.Name</strong>
-                        <h3 class="m-0">@post.Title</h3>
+                        <h3 class="m-0 text-truncate" title="@post.Title">@post.Title</h3>
                     </header>
                     <section class="p-4">
                         <p class="m-0">@post.Excerpt</p>
-
                         <blockquote class="blockquote mt-3 mb-0">
                             <footer class="blockquote-footer">
                                 <cite title="Source Title">By @post.Author</cite>
                             </footer>
                         </blockquote>
-
                     </section>
                     <footer class="px-4 pb-4">
                         <a href="@Url.Action("Single", "Post", new { id = post.Id })" class="btn btn-outline-primary btn-sm">Read more</a>

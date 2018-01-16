@@ -25,12 +25,23 @@ namespace Spot.Controllers
         }
 
         [HttpGet]
-        public ActionResult SignIn(string returnUrl) => View(new SignInViewModel { ReturnUrl = returnUrl });
+        public ActionResult SignIn(string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new SignInViewModel { ReturnUrl = returnUrl });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SignIn(SignInViewModel model)
         {
+            if (User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid) {
                 ModelState.AddModelError("", "Incorrect e-mail or password.");
                 return View();

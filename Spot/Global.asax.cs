@@ -24,6 +24,7 @@ namespace Spot
         private void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapMvcAttributeRoutes();
 
             // UserController routes
             routes.MapRoute("UserRegister", "Register", new { action = "Register", controller = "User" });
@@ -31,15 +32,15 @@ namespace Spot
             routes.MapRoute("UserSignOut", "SignOut", new { action = "SignOut", controller = "User" });
 
             // PostController routes
-            routes.MapRoute("PostSingle", "post/{id}", new { action = "Single", controller = "Post" }, new { id = "[0-9]+" });
-            routes.MapRoute("PostNew", "post/new", new { action = "New", controller = "Post" });
-            routes.MapRoute("PostEdit", "post/edit/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
-            routes.MapRoute("PostRemove", "post/remove/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            //routes.MapRoute("PostPagedInitial", "posts", new { action = "Paged", controller = "Post" });
+            //routes.MapRoute("PostPaged", "posts/page/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
+            //routes.MapRoute("PostSingle", "posts/{id}", new { action = "Single", controller = "Post" }, new { id = "[0-9]+" });
+            //routes.MapRoute("PostNew", "posts/create", new { action = "New", controller = "Post" });
+            //routes.MapRoute("PostEdit", "posts/edit/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
+            //routes.MapRoute("PostRemove", "posts/remove/{id}", new { action = "Edit", controller = "Post" }, new { id = "[0-9]+" });
 
             //routes.MapRoute("PostPaged", "feed/{tag}/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
-            routes.MapRoute("PostPaged", "feed/{pageIndex}", new { action = "Paged", controller = "Post", pageIndex = UrlParameter.Optional });
 
-            
             // HomeController routes
             routes.MapRoute("HomeIndex", "", new { action = "Index", controller = "Home" });
             routes.MapRoute("HomeAbout", "About", new { action = "About", controller = "Home" });

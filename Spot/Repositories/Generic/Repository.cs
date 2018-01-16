@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Spot.Repositories.Generic
 {
-    public class Repository<TKey, TEntity> : IRepository<TKey, TEntity> where TEntity : class
+    public class Repository<TKey, TEntity> : IRepository<TKey, TEntity> where TEntity : class, new()
     {
         protected readonly DbContext Context;
 
@@ -30,8 +30,9 @@ namespace Spot.Repositories.Generic
 
         public virtual void Remove(TEntity entity)
         {
+            Context.Set<TEntity>().Attach(entity);
             Context.Set<TEntity>().Remove(entity);
-            Context.Entry(entity).State = EntityState.Deleted;
+            //Context.Entry(entity).State = EntityState.Deleted;
         }
 
         public virtual void RemoveRange(IEnumerable<TEntity> entities)
