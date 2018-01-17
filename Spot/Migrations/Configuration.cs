@@ -28,9 +28,8 @@ namespace Spot.Migrations
             };
 
             foreach (var role in roles) {
-                if (!roleManager.RoleExists(role)) {
+                if (!roleManager.RoleExists(role))
                     roleManager.Create(new IdentityRole(role));
-                }
             }
 
             var user = new UserModel {
@@ -41,22 +40,19 @@ namespace Spot.Migrations
 
             var userResult = userManager.Create(user, "Asd12wer");
 
-            if (userResult.Succeeded) {
+            if (userResult.Succeeded)
                 userManager.AddToRole(user.Id, roles[0]);
-            }
 
             //Remove everything
             context.Posts.RemoveRange(context.Posts);
-            context.Comments.RemoveRange(context.Comments);
             context.Categories.RemoveRange(context.Categories);
 
-            //Reset primary key counter on posts and comments table
+            //Reset primary key counter
             context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Posts', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Comments', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Categories', RESEED)");
+            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Categories', RESEED, 0)");
 
             var testCategory = new CategoryModel {
-                Name = "Test",
+                Name = "Article",
                 Description = "Curabitur ut diam ante. Fusce eget dapibus urna, sed consequat leo. Curabitur aliquet metus eget dui suscipit, in aliquam tellus faucibus. Maecenas eu libero aliquet dui tincidunt cursus. Curabitur at mollis quam, et eleifend quam."
             };
 
@@ -65,14 +61,14 @@ namespace Spot.Migrations
             for (var i = 0; i < 34; ++i) {
                 context.Posts.Add(new PostModel {
                     Status = PostStatus.Public,
-                    Title = "Lorem ipsum",
+                    Title = $"Article title {i + 1}",
                     Excerpt = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
                     Content = "Etiam ut magna vitae ex rhoncus pulvinar. Aliquam erat volutpat.",
                     Created = DateTime.Now,
                     Modified = DateTime.Now,
                     Published = DateTime.Now,
                     Category = testCategory,
-                    Author = user
+                    Author = user.UserName
                 });
             }
 

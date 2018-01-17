@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Spot.Models.Post;
 using Spot.Models.User;
-using Spot.Models.Comment;
 using Spot.Models.Category;
 
 namespace Spot
@@ -10,7 +9,6 @@ namespace Spot
     public class DatabaseContext : IdentityDbContext<UserModel>
     {
         public DbSet<PostModel> Posts { get; set; }
-        public DbSet<CommentModel> Comments { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
 
         public DatabaseContext() : base("DefaultConnection") { }
@@ -21,7 +19,6 @@ namespace Spot
 
             // Custom models -> table names
             builder.Entity<PostModel>().ToTable("Posts");
-            builder.Entity<CommentModel>().ToTable("Comments");
             builder.Entity<CategoryModel>().ToTable("Categories");
             builder.Entity<UserModel>().ToTable("Users");
 

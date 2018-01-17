@@ -18,7 +18,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <article class="card mb-3 mb-sm-4">
                     <header class="mt-5 pt-5 px-4">
-                        <strong class="m-0 text-uppercase">@post.Category.Name</strong>
+                        @if (post.Category != null && post.Category.Name != null) {
+                            <strong class="m-0 text-uppercase">@(post.Category.Name)</strong>
+                        }
                         <h3 class="m-0 text-truncate" title="@post.Title">@post.Title</h3>
                     </header>
                     <section class="p-4">
@@ -55,7 +57,6 @@
             }
 
             @for (var i = 1; i <= Model.Pages; ++i) {
-
                 if (i == Model.Index) {
                     <li class="page-item active">
                         <a class="page-link" href="@Url.Action("Paged", "Post", new { pageIndex = i })">@i <span class="sr-only">(current)</span></a>
@@ -81,3 +82,22 @@
         </ul>
     </nav>
 </main>
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+        jQuery(function ($) {
+            //console.log($.connection.postHub);
+            var postHub = $.connection.postHub;
+
+            postHub.client.addNewMessageToPage = function (post) {
+                console.log(post);
+            };
+
+            $.connection.hub.start();
+        });
+    </script>
+}

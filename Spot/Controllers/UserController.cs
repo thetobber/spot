@@ -16,7 +16,12 @@ namespace Spot.Controllers
         private readonly SignInManager SignInManager;
         private readonly IAuthenticationManager AuthManager;
 
-        public UserController(UserManager userManager, RoleManager roleManager, SignInManager signInManager, IAuthenticationManager authManager)
+        public UserController(
+            UserManager userManager,
+            RoleManager roleManager,
+            SignInManager signInManager,
+            IAuthenticationManager authManager
+        )
         {
             UserManager = userManager;
             RoleManager = roleManager;

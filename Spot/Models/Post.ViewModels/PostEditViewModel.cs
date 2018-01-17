@@ -2,7 +2,7 @@
 
 namespace Spot.Models.Post.ViewModels
 {
-    public class PostEditViewModel : PostNewViewModel
+    public class PostEditViewModel : PostCreateViewModel
     {
         [Required]
         public int Id { get; set; }

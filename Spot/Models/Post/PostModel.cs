@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Spot.Models.Category;
-using Spot.Models.Comment;
 using Spot.Models.User;
 
 namespace Spot.Models.Post
@@ -13,13 +11,17 @@ namespace Spot.Models.Post
 
         public PostStatus Status { get; set; }
 
-        [DataType(DataType.Text), StringLength(255)]
+        [DataType(DataType.Text)]
+        [MinLength(10)]
+        [MaxLength(255)]
         public string Title { get; set; }
 
         [DataType(DataType.Html)]
         public string Content { get; set; }
 
-        [DataType(DataType.Text), StringLength(255)]
+        [DataType(DataType.Text)]
+        [MinLength(10)]
+        [MaxLength(255)]
         public string Excerpt { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -31,10 +33,9 @@ namespace Spot.Models.Post
         [DataType(DataType.DateTime)]
         public DateTime? Published { get; set; }
 
-        public UserModel Author { get; set; }
+        // public UserModel Author { get; set; }
+        public string Author { get; set; }
 
         public CategoryModel Category { get; set; }
-
-        public ICollection<CommentModel> Comments { get; set; }
     }
 }

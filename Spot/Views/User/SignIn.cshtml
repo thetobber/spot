@@ -3,15 +3,15 @@
 @{
     Layout = "~/Views/Shared/_Blank.cshtml";
     ViewBag.Title = "Sign in";
+    MvcHtmlString errorMessage = Html.ValidationMessage("", new { @class = "invalid-feedback d-block mt-0 mb-3" }, "div");
+    string errorClass = MvcHtmlString.IsNullOrEmpty(errorMessage) ? "" : " is-invalid";
 }
 
 <div class="px-3 py-5 mx-auto" style="max-width: 22rem;">
     <div class="text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="d-inline-block" viewBox="0 0 36 36" width="56" height="56" xml:space="preserve" focusable="false">
-        <rect rx="4" height="34" width="34" y="1" x="1" stroke-width="2" stroke="#343a40" fill="none" />
-
-        <path fill="#343a40" d="M12.98 25.75L12.98 25.75L13.84 23.59L13.84 23.59Q14.50 24.07 15.47 24.40L15.47 24.40L15.47 24.40Q16.45 24.72 17.23 24.72L17.23 24.72L17.23 24.72Q18.60 24.72 19.43 23.97L19.43 23.97L19.43 23.97Q20.26 23.22 20.26 22.06L20.26 22.06L20.26 22.06Q20.26 21.19 19.80 20.45L19.80 20.45L19.80 20.45Q19.34 19.70 17.47 18.82L17.47 18.82L16.09 18.18L16.09 18.18Q14.33 17.36 13.63 16.23L13.63 16.23L13.63 16.23Q12.94 15.11 12.94 13.53L12.94 13.53L12.94 13.53Q12.94 11.61 14.30 10.34L14.30 10.34L14.30 10.34Q15.66 9.07 17.79 9.07L17.79 9.07L17.79 9.07Q20.64 9.07 21.75 10L21.75 10L21.06 12.04L21.06 12.04Q20.59 11.70 19.63 11.38L19.63 11.38L19.63 11.38Q18.67 11.07 17.85 11.07L17.85 11.07L17.85 11.07Q16.65 11.07 15.97 11.75L15.97 11.75L15.97 11.75Q15.28 12.43 15.28 13.49L15.28 13.49L15.28 13.49Q15.28 14.15 15.53 14.69L15.53 14.69L15.53 14.69Q15.77 15.23 16.21 15.59L16.21 15.59L16.21 15.59Q16.65 15.95 18.01 16.61L18.01 16.61L19.42 17.28L19.42 17.28Q21.18 18.11 21.88 19.26L21.88 19.26L21.88 19.26Q22.59 20.42 22.59 22.20L22.59 22.20L22.59 22.20Q22.59 24.13 21.04 25.48L21.04 25.48L21.04 25.48Q19.49 26.83 16.89 26.83L16.89 26.83L16.89 26.83Q14.60 26.83 12.98 25.75Z" />
-
+            <rect rx="4" height="34" width="34" y="1" x="1" stroke-width="2" stroke="#343a40" fill="none" />
+            <path fill="#343a40" d="M12.98 25.75L12.98 25.75L13.84 23.59L13.84 23.59Q14.50 24.07 15.47 24.40L15.47 24.40L15.47 24.40Q16.45 24.72 17.23 24.72L17.23 24.72L17.23 24.72Q18.60 24.72 19.43 23.97L19.43 23.97L19.43 23.97Q20.26 23.22 20.26 22.06L20.26 22.06L20.26 22.06Q20.26 21.19 19.80 20.45L19.80 20.45L19.80 20.45Q19.34 19.70 17.47 18.82L17.47 18.82L16.09 18.18L16.09 18.18Q14.33 17.36 13.63 16.23L13.63 16.23L13.63 16.23Q12.94 15.11 12.94 13.53L12.94 13.53L12.94 13.53Q12.94 11.61 14.30 10.34L14.30 10.34L14.30 10.34Q15.66 9.07 17.79 9.07L17.79 9.07L17.79 9.07Q20.64 9.07 21.75 10L21.75 10L21.06 12.04L21.06 12.04Q20.59 11.70 19.63 11.38L19.63 11.38L19.63 11.38Q18.67 11.07 17.85 11.07L17.85 11.07L17.85 11.07Q16.65 11.07 15.97 11.75L15.97 11.75L15.97 11.75Q15.28 12.43 15.28 13.49L15.28 13.49L15.28 13.49Q15.28 14.15 15.53 14.69L15.53 14.69L15.53 14.69Q15.77 15.23 16.21 15.59L16.21 15.59L16.21 15.59Q16.65 15.95 18.01 16.61L18.01 16.61L19.42 17.28L19.42 17.28Q21.18 18.11 21.88 19.26L21.88 19.26L21.88 19.26Q22.59 20.42 22.59 22.20L22.59 22.20L22.59 22.20Q22.59 24.13 21.04 25.48L21.04 25.48L21.04 25.48Q19.49 26.83 16.89 26.83L16.89 26.83L16.89 26.83Q14.60 26.83 12.98 25.75Z" />
         </svg>
         <h2 class="font-weight-normal m-0">Sign in to Spot</h2>
     </div>
@@ -20,21 +20,15 @@
             <form action="@Url.Action("SignIn", "User")" method="post" autocomplete="off">
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.ReturnUrl)
-
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = $"form-control{errorClass}" })
                 </div>
-
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.PasswordFor(m => m.Password, new { @class = $"form-control{errorClass}" })
                 </div>
-
-                <div class="invalid-feedback">
-                    @Html.ValidationMessage("", new { @class = "d-block text-danger mb-3" })
-                </div>
-
+                @errorMessage
                 <button class="btn btn-success btn-block" type="submit">Sign in</button>
             </form>
         </div>

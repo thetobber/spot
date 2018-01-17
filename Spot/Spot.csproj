@@ -60,6 +60,9 @@
     <Reference Include="Autofac.Integration.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Owin.4.0.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.SignalR, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -74,6 +77,15 @@
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.2.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -172,15 +184,15 @@
     <Compile Include="Models\Generic.ViewModels\PagedViewModel.cs" />
     <Compile Include="Models\Post.ViewModels\PostEditViewModel.cs" />
     <Compile Include="Models\Post.ViewModels\PostExcerptViewModel.cs" />
-    <Compile Include="Models\Post.ViewModels\PostNewViewModel.cs" />
+    <Compile Include="Models\Post.ViewModels\PostCreateViewModel.cs" />
     <Compile Include="Models\Post.ViewModels\PostPagedViewModel.cs" />
     <Compile Include="Models\User.ViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\User.ViewModels\SignInViewModel.cs" />
-    <Compile Include="Models\Comment\CommentModel.cs" />
     <Compile Include="Models\Post\PostModel.cs" />
     <Compile Include="Models\Post\PostStatus.cs" />
     <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Models\User\UserRole.cs" />
+    <Compile Include="PostHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Generic\IRepository.cs" />
     <Compile Include="Repositories\Generic\Repository.cs" />
@@ -202,8 +214,12 @@
     <Content Include="Content\Images\96x96.png" />
     <Content Include="Content\Style.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\Bootstrap.js" />
-    <Content Include="Scripts\jQuery.js" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Views\Post\Create.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -231,7 +247,6 @@
     <Content Include="Views\Shared\500.cshtml" />
     <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Post\Paged.cshtml" />
-    <Content Include="Views\Post\New.cshtml" />
     <Content Include="Views\Post\Edit.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />

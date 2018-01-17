@@ -2,7 +2,7 @@
 
 namespace Spot.Models.Post.ViewModels
 {
-    public class PostNewViewModel
+    public class PostCreateViewModel
     {
         [Required]
         public PostStatus Status { get; set; }

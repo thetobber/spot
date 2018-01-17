@@ -33,7 +33,6 @@ namespace Spot.Repositories
         {
             var query = DatabaseContext.Posts
                 .Include(p => p.Author)
-                .Include(p => p.Comments)
                 .Include(p => p.Category);
 
             if (status != null)
@@ -50,7 +49,7 @@ namespace Spot.Repositories
                 .Include(p => p.Category)
                 .Select(p => new PostExcerptViewModel {
                     Id = p.Id,
-                    Author = p.Author.UserName,
+                    Author = p.Author,
                     Status = p.Status,
                     Title = p.Title,
                     Excerpt = p.Excerpt,

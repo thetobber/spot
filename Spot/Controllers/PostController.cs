@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Spot.Models.Generic.ViewModels;
 using Spot.Models.Post;
 using Spot.Models.Post.ViewModels;
+using Spot.Models.User;
 using Spot.Repositories;
 
 namespace Spot.Controllers
@@ -12,31 +14,66 @@ namespace Spot.Controllers
     public class PostController : Controller
     {
         private readonly IPostRepository PostRepository;
+        private readonly UserManager UserManager;
+        private readonly Microsoft.AspNet.SignalR.IHubContext PostHub;
 
-        public PostController(IPostRepository postRepository)
+        public PostController(
+            IPostRepository postRepository,
+            UserManager userManager
+        )
         {
             PostRepository = postRepository;
+            UserManager = userManager;
+            PostHub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<PostHub>();
         }
 
-        [HttpGet, Route("create")]
-        public ActionResult New() => View();
+        [HttpGet]
+        [Route("create")]
+        [Authorize(Roles = "Administrator")]
+        public ActionResult Create() => View();
 
-        [HttpPost, Route("create"), ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Exclude = "Id,Created,Modified,Published")]PostModel model)
+        [HttpPost]
+        [Route("create")]
+        [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(PostCreateViewModel newPost)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return View(newPost);
 
-            model.Created = DateTime.Now;
-            model.Modified = DateTime.Now;
-            model.Published = DateTime.Now;
+            UserModel currentUser;
+
+            try {
+                currentUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            }
+            catch {
+                return View("500");
+            }
+
+            var model = new PostModel {
+                Status = newPost.Status,
+                Title = newPost.Title,
+                Excerpt = newPost.Excerpt,
+                Content = newPost.Content,
+                Created = DateTime.Now,
+                Modified = DateTime.Now,
+                Published = DateTime.Now,
+                Category = null,
+                Author = currentUser.UserName
+            };
 
             try {
                 PostRepository.Add(model);
                 var result = await PostRepository.SaveAsync();
 
-                if (result > 0)
+                if (result > 0) {
+                    var latest = await PostRepository.GetAsync(model.Id);
+
+                    if (model != null)
+                        PostHub.Clients.All.addNewMessageToPage(model);
+
                     return RedirectToAction("Edit", "Post", new { id = model.Id });
+                }
             }
             catch {
                 return View("500");
@@ -137,7 +174,7 @@ namespace Spot.Controllers
 
         //[HttpPost]
         [Route("remove/{id:int}")]
-        [Authorize(Roles = "Administrator,Editor")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Remove(int id)
         {
             PostRepository.Remove(new PostModel { Id = id });
