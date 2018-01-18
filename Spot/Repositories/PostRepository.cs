@@ -45,22 +45,17 @@ namespace Spot.Repositories
         public async Task<PagedViewModel<PostExcerptViewModel>> GetPagedAsync(int pageIndex, int pageSize, PostStatus? status = PostStatus.Public)
         {
             var query = DatabaseContext.Posts
+                .Where(p => status == null ? true : p.Status == status)
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Select(p => new PostExcerptViewModel {
                     Id = p.Id,
                     Author = p.Author,
-                    Status = p.Status,
                     Title = p.Title,
                     Excerpt = p.Excerpt,
-                    Created = p.Created,
-                    Modified = p.Modified,
                     Published = p.Published,
                     Category = p.Category
                 });
-
-            if (status != null)
-                query = query.Where(p => p.Status == status);
 
             var total = await query.CountAsync();
 

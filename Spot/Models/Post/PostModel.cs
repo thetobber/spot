@@ -36,6 +36,7 @@ namespace Spot.Models.Post
         // public UserModel Author { get; set; }
         public string Author { get; set; }
 
+        public int CategoryId { get; set; }
         public CategoryModel Category { get; set; }
     }
 }
