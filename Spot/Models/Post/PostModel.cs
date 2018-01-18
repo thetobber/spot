@@ -12,16 +12,14 @@ namespace Spot.Models.Post
         public PostStatus Status { get; set; }
 
         [DataType(DataType.Text)]
-        [MinLength(10)]
-        [MaxLength(255)]
+        [StringLength(255)]
         public string Title { get; set; }
 
         [DataType(DataType.Html)]
         public string Content { get; set; }
 
         [DataType(DataType.Text)]
-        [MinLength(10)]
-        [MaxLength(255)]
+        [StringLength(255)]
         public string Excerpt { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -36,7 +34,7 @@ namespace Spot.Models.Post
         // public UserModel Author { get; set; }
         public string Author { get; set; }
 
-        public int CategoryId { get; set; }
+        // public int CategoryId { get; set; }
         public CategoryModel Category { get; set; }
     }
 }

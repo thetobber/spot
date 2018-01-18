@@ -32,7 +32,6 @@ namespace Spot.Repositories
         public async Task<PostModel> GetAsync(int id, PostStatus? status = PostStatus.Public)
         {
             var query = DatabaseContext.Posts
-                .Include(p => p.Author)
                 .Include(p => p.Category);
 
             if (status != null)
@@ -46,7 +45,6 @@ namespace Spot.Repositories
         {
             var query = DatabaseContext.Posts
                 .Where(p => status == null ? true : p.Status == status)
-                .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Select(p => new PostExcerptViewModel {
                     Id = p.Id,

@@ -10,7 +10,6 @@
         @Html.HiddenFor(m => m.Created)
 
         <div class="form-group">
-            @Model.Status
             @Html.LabelFor(m => m.Status)
             @{
                 error = Html.ValidationMessageFor(m => m.Status);

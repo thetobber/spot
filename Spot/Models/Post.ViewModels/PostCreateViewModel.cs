@@ -7,17 +7,19 @@ namespace Spot.Models.Post.ViewModels
         [Required]
         public PostStatus Status { get; set; }
 
-        [Required(ErrorMessage = "The title is required.")]
         [DataType(DataType.Text)]
-        [StringLength(255, ErrorMessage = "The title must have a length of maximum 255 characters.")]
+        [Required]
+        [MinLength(10)]
+        [MaxLength(255)]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "The excerpt is required.")]
         [DataType(DataType.Text)]
-        [StringLength(255, ErrorMessage = "The excerpt must have a length of maximum 255 characters.")]
+        [Required]
+        [MinLength(10)]
+        [MaxLength(255)]
         public string Excerpt { get; set; }
 
-        [Required(ErrorMessage = "The content is required.")]
+        [Required]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
     }

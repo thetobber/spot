@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -43,8 +44,8 @@ namespace Spot.Controllers
 
             UserModel currentUser;
 
-            try {
                 currentUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            try {
             }
             catch {
                 return View("500");
@@ -75,8 +76,10 @@ namespace Spot.Controllers
                     return RedirectToAction("Edit", "Post", new { id = model.Id });
                 }
             }
-            catch {
-                return View("500");
+            catch (DbEntityValidationException e) {
+                var a = e.EntityValidationErrors;
+                throw e;
+                //return View("500");
             }
 
             return View(model);
